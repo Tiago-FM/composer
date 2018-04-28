@@ -7,4 +7,17 @@ ENV PATH ${PATH}:/root/.composer/vendor/bin
 RUN curl -L https://github.com/composer/composer/releases/download/${COMPOSER_VERSION}/composer.phar > /usr/local/bin/composer
 
 RUN chmod +x /usr/local/bin/composer
+
+# Install extensions :
+    # Install runtime deps :
+RUN apk add gpgme --no-cache
+    # Install build deps, build and remove build deps :
+RUN apk add autoconf gpgme-dev make g++ gcc -t build-stack --no-cache && \
+    docker-php-ext-install pdo pdo_mysql && \
+    pecl install gnupg && \
+    pecl install redis && \
+    echo "extension=gnupg.so" > /usr/local/etc/php/conf.d/gnupg.ini && \ 
+    echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini && \ 
+    apk del build-stack --purge
+
 ENTRYPOINT [ "php", "/usr/local/bin/composer" ]
