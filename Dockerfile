@@ -14,7 +14,7 @@ RUN composer global require hirak/prestissimo
 RUN apk add gpgme libxslt --no-cache
     # Install build deps, build and remove build deps :
 RUN apk add autoconf gpgme-dev make g++ gcc libxslt-dev -t build-stack --no-cache && \
-    docker-php-ext-install pdo pdo_mysql xsl && \
+    docker-php-ext-install pdo pdo_mysql xsl iconv soap && \
     pecl install gnupg && \
     pecl install redis && \
     echo "extension=gnupg.so" > /usr/local/etc/php/conf.d/gnupg.ini && \ 
