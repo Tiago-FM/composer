@@ -21,4 +21,7 @@ RUN apk add autoconf gpgme-dev make g++ gcc libxslt-dev -t build-stack --no-cach
     echo "extension=redis.so" > /usr/local/etc/php/conf.d/redis.ini && \ 
     apk del build-stack --purge
 
+# Fix iconv :
+RUN apk add gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 ENTRYPOINT [ "php", "/usr/local/bin/composer" ]
