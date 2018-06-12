@@ -11,7 +11,7 @@ RUN composer global require hirak/prestissimo
 
 # Install extensions :
     # Install runtime deps :
-RUN apk add gpgme libxslt --no-cache
+RUN apk add git mysql-client gpgme libxslt --no-cache
     # Install build deps, build and remove build deps :
 RUN apk add autoconf gpgme-dev make g++ gcc libxslt-dev -t build-stack --no-cache && \
     docker-php-ext-install pdo pdo_mysql xsl iconv soap && \
